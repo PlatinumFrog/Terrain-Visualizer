@@ -10,9 +10,9 @@
 #include <SDL.h>
 #include "Input.h"
 #ifdef _DEBUG
-#include "gladDebug/include/glad.h"
+#include "../gladDebug/include/glad.h"
 #else
-#include "gladRelease/include/glad.h"
+#include "../gladRelease/include/glad.h"
 #endif
 // TODO: Reference additional headers your program requires here.
 #endif

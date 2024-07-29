@@ -1,8 +1,12 @@
 ﻿// Terrain Visualizer.cpp : Defines the entry point for the application.
 
-#include "Terrain Visualizer.h"
+#include "../include/Main.h"
 
-void GLAPIENTRY MessageCallback(
+// Debug callback function for use with OpenGL's glDebugMessageCallback
+
+#ifdef _DEBUG
+
+static void GLAPIENTRY MessageCallback(
 	GLenum source,
 	GLenum type,
 	unsigned int id,
@@ -47,6 +51,7 @@ void GLAPIENTRY MessageCallback(
 	std::cout << std::endl;
 }
 
+#endif
 
 int main(int argc, char* argv[])
 {
@@ -54,7 +59,7 @@ int main(int argc, char* argv[])
 		throw std::exception("You forgot to use an image as an exec argument!");
 	}
 	std::cout << "Loading " << argv[1] << "..." << std::endl;
-
+	
 	SDL_Init(SDL_INIT_EVERYTHING);
 
 	Input::update();

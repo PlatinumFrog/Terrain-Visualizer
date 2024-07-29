@@ -1,4 +1,4 @@
-#include "Input.h"
+#include "../include/Input.h"
 
 const Uint8 *Input::keyState;
 Uint32 Input::m;
