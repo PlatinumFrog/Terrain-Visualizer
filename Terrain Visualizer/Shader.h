@@ -1,4 +1,6 @@
-#pragma once
+#ifndef SHADER_COMPILERS
+#define SHADER_COMPILERS
+
 #include <string>
 #include <fstream>
 #include <iostream>
@@ -19,3 +21,5 @@ public:
 	static GLuint compileShader(const std::string& vertexFileName, const std::string& geometryFileName, const std::string& fragmentFileName);
 	static GLuint compileShader(const GLuint ID);
 };
+
+#endif

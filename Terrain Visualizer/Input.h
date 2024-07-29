@@ -1,6 +1,8 @@
-#pragma once
+#ifndef USER_INPUT_HANDLER
+#define USER_INPUT_HANDLER
+
 #include <SDL.h>
-#include "../types/camera.cuh"
+#include "camera.h"
 
 class Input {
 
@@ -19,3 +21,5 @@ public:
 	static bool key(SDL_Scancode s);
 
 };
+
+#endif
