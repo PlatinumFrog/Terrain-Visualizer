@@ -3,6 +3,9 @@
 ##
 ## Get latest from https://github.com/github/gitignore/blob/main/VisualStudio.gitignore
 
+/Terrain\ Visualizer/SDL2/**
+/Terrain\ Visualizer/SDL2_image/**
+
 # User-specific files
 *.rsuser
 *.suo
