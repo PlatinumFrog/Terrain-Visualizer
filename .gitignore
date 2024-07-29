@@ -5,7 +5,8 @@
 
 /Terrain\ Visualizer/SDL2/**
 /Terrain\ Visualizer/SDL2_image/**
-
+/Terrain\ Visualizer/gladRelease/**
+/Terrain\ Visualizer/gladDebug/**
 # User-specific files
 *.rsuser
 *.suo
