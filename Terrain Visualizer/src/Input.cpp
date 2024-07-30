@@ -5,7 +5,7 @@ Uint32 Input::m;
 float Input::mx, Input::my, Input::lx, Input::ly, Input::dx, Input::dy;
 bool Input::lb, Input::mb, Input::rb;
 
-camera Input::cam(float3{0.0f,0.0f,100.0f}, float3{0.0f,0.0f,1.0});
+camera Input::cam(float3{0.0f,10.0f,-100.0f}, float3{0.0f,0.0f,-0.5f});
 
 void Input::update() {
 

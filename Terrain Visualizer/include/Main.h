@@ -1,7 +1,4 @@
-﻿// Terrain Visualizer.h : Include file for standard system include files,
-// or project specific include files.
-
-#ifndef MAIN_RUNTIME_FILE
+﻿#ifndef MAIN_RUNTIME_FILE
 #define MAIN_RUNTIME_FILE
 
 #include <iostream>
@@ -14,5 +11,6 @@
 #else
 #include "../gladRelease/include/glad.h"
 #endif
-// TODO: Reference additional headers your program requires here.
+
+#include "TerrainTexture.h"
 #endif

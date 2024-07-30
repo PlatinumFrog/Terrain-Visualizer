@@ -5,8 +5,11 @@
 #include <fstream>
 #include <iostream>
 #include <map>
-#include <glad.h>
-
+#ifdef _DEBUG
+#include "../gladDebug/include/glad.h"
+#else
+#include "../gladRelease/include/glad.h"
+#endif
 struct shader {
 	bool geom;
 	std::string vertFile, vertString;

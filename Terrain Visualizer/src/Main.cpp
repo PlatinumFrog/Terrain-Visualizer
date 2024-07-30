@@ -55,10 +55,11 @@ static void GLAPIENTRY MessageCallback(
 
 int main(int argc, char* argv[])
 {
+	/*
 	if (argc < 2) {
 		throw std::exception("You forgot to use an image as an exec argument!");
 	}
-	std::cout << "Loading " << argv[1] << "..." << std::endl;
+	std::cout << "Loading " << argv[1] << "..." << std::endl;*/
 	
 	SDL_Init(SDL_INIT_EVERYTHING);
 
@@ -91,6 +92,8 @@ int main(int argc, char* argv[])
 	glCullFace(GL_BACK);
 	glEnable(GL_MULTISAMPLE);
 
+	TerrainTexture terr;
+
 	bool loop = true;
 	std::vector<SDL_Event> events;
 
@@ -119,6 +122,8 @@ int main(int argc, char* argv[])
 		Input::update();
 
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+		terr.draw();
 
 		SDL_GL_SwapWindow(window);
 	}

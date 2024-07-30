@@ -100,8 +100,8 @@ struct camera {
 	
 	inline void move(float3 v, float2 d) {
 		rot += d;
-		const float k = cos(rot.y);
-		const float u = (k < 0) ? -1.0f : 1.0f;
+		const float k = -cos(rot.y);
+		const float u = (k < 0) ? 1.0f : -1.0f;
 		const float3 forward = norm(float3{k * sin(rot.x), sin(rot.y), k * cos(rot.x)});
 		const float3 right = norm(float3{-forward.z, 0.0f, forward.x}) * u;
 		const float3 up = norm(float3{-forward.x * forward.y, (forward.z * forward.z) + (forward.x * forward.x), -forward.z * forward.y}) * u;

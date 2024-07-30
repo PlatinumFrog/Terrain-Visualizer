@@ -15,35 +15,29 @@ file(GLOB_RECURSE HEADERS source/*.hpp)
 
 set(GLAD_NAME "$<IF:$<CONFIG:Debug>,gladDebug,gladRelease>")
 
+include_directories(SYSTEM "${CMAKE_CURRENT_SOURCE_DIR}/${GLAD_NAME}/include" "include")
+
 add_executable (
-	TerrainVisualizer 
+	CMakeTarget
 	"src/Main.cpp"
-	"include/Main.h"
-    "include/TerrainTexture.h"
     "src/Input.cpp"
-    "include/Input.h"
-    "include/camera.h"
-    "include/matrix.h"
-    "include/vector.h"
+    "src/Shader.cpp"
     "${GLAD_NAME}/src/glad.c"
-    "${GLAD_NAME}/include/khrplatform.h"
-    "${GLAD_NAME}/include/glad.h"
     ${SOURCES}
     ${HEADERS}
 )
 
-
-
 target_link_libraries(
-    TerrainVisualizer
+    CMakeTarget
     PUBLIC
     SDL2::SDL2
     SDL2::SDL2main
     SDL2_image::SDL2_image
 )
 
+
 if (CMAKE_VERSION VERSION_GREATER 3.12)
-  set_property(TARGET TerrainVisualizer PROPERTY CXX_STANDARD 20)
+  set_property(TARGET CMakeTarget PROPERTY CXX_STANDARD 20)
 endif()
 
 # TODO: Add tests and install targets if needed.
