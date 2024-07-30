@@ -11,8 +11,19 @@
 #include "Input.h"
 #include "Shader.h"
 
+constexpr float gridSize = 100.0f;
+constexpr uint32_t nTiles = 14u;
+constexpr float tileMin = (float)(nTiles >> 1);
+constexpr float tileMax = tileMin - 1.0f;
+constexpr float tileSize = gridSize / (float)nTiles;
+constexpr float texCoordSize = 1.0f / (float)nTiles;
+constexpr uint32_t vertSize = 4u;
+constexpr uint32_t vertsPerTile = 4u;
+constexpr uint32_t primitiveSize = vertSize * vertsPerTile;
+constexpr uint32_t gridBufferSize = primitiveSize * nTiles * nTiles;
+constexpr uint32_t nPrimitives = vertsPerTile * nTiles * nTiles;
+
 class TerrainTexture {
-	static const float squareCoords[8];
 	GLuint vboID, vaoID, heightMapTexID, shadowMapTexID, drawShaderID, shadowShaderID;
 
 public:
@@ -21,18 +32,54 @@ public:
 		vaoID(0),
 		heightMapTexID(0),
 		shadowMapTexID(0),
-		drawShaderID(Shaders::compileShader("flatSquare.vert", "flatSquare.frag")),
+		drawShaderID(Shaders::compileShader("flatSquare.vert","flatSquare.tesc", "flatSquare.tese", "flatSquare.frag")),
 		shadowShaderID(0)
 	{
+		GLfloat squareCoords[gridBufferSize];
+		for (uint32_t y = 0; y < nTiles; y++) {
+			for (uint32_t x = 0; x < nTiles; x++) {
+
+				uint32_t i = primitiveSize * (x + (nTiles * y));
+
+				float x1 = ((float)(x) - tileMin) * tileSize, x2 = ((float)(x) - tileMax) * tileSize,
+					  y1 = ((float)(y) - tileMin) * tileSize, y2 = ((float)(y) - tileMax) * tileSize,
+					  texCoordsX1 = (float)(x) * texCoordSize, texCoordsX2 = ((float)(x) + 1.0f) * texCoordSize,
+					  texCoordsY1 = (float)(y) * texCoordSize, texCoordsY2 = ((float)(y) + 1.0f) * texCoordSize;
+
+				squareCoords[i] = x1;
+				squareCoords[i + 1] = y1;
+				squareCoords[i + 2] = texCoordsX1;
+				squareCoords[i + 3] = texCoordsY1;
+
+				squareCoords[i + 4] = x2;
+				squareCoords[i + 5] = y1;
+				squareCoords[i + 6] = texCoordsX2;
+				squareCoords[i + 7] = texCoordsY1;
+
+				squareCoords[i + 8] = x1;
+				squareCoords[i + 9] = y2;
+				squareCoords[i + 10] = texCoordsX1;
+				squareCoords[i + 11] = texCoordsY2;
+
+				squareCoords[i + 12] = x2;
+				squareCoords[i + 13] = y2;
+				squareCoords[i + 14] = texCoordsX2;
+				squareCoords[i + 15] = texCoordsY2;
+
+				
+			}
+		}
+
 		glGenVertexArrays(1, &vaoID);
 		glBindVertexArray(vaoID);
 		glGenBuffers(1, &vboID);
 		glBindBuffer(GL_ARRAY_BUFFER, vboID);
 		glBufferData(GL_ARRAY_BUFFER, sizeof(squareCoords), squareCoords, GL_STATIC_DRAW);
-		glVertexAttribPointer(0, 2, GL_FLOAT, 0, 0, 0);
+		glVertexAttribPointer(0, 4, GL_FLOAT, 0, 0, 0);
 		glEnableVertexAttribArray(0);
 		glBindBuffer(GL_ARRAY_BUFFER, 0);
 		glBindVertexArray(0);
+		glPatchParameteri(GL_PATCH_VERTICES, 4);
 	};
 
 	~TerrainTexture() {
@@ -48,16 +95,9 @@ public:
 		glUniformMatrix4fv(1, 1, GL_FALSE, (const GLfloat*)&Input::cam.C.x.x);
 		glUniformMatrix4fv(5, 1, GL_FALSE, (const GLfloat*)&Input::cam.P.x.x);
 
-		glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
+		glDrawArrays(GL_PATCHES, 0, nPrimitives);
 	}
 
-};
-
-const float TerrainTexture::squareCoords[8] = {
-		-100.0f, -100.0f,
-		100.0f, -100.0f,
-		-100.0f, 100.0f,
-		100.0f, 100.0f
 };
 
 #endif

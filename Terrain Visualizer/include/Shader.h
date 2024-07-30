@@ -11,10 +11,11 @@
 #include "../gladRelease/include/glad.h"
 #endif
 struct shader {
-	bool geom;
-	std::string vertFile, vertString;
-	std::string geomFile, geomString;
-	std::string fragFile, fragString;
+	std::map<std::string, std::string> files;
+	/*	Tessellation Control
+		Tessellation Evaluation
+		Geometry                */
+	uint8_t flags;
 };
 
 class Shaders {
@@ -22,7 +23,8 @@ class Shaders {
 public:
 	static GLuint compileShader(const std::string& vertexFileName, const std::string& fragmentFileName);
 	static GLuint compileShader(const std::string& vertexFileName, const std::string& geometryFileName, const std::string& fragmentFileName);
-	static GLuint compileShader(const GLuint ID);
+	static GLuint compileShader(const std::string& vertexFileName, const std::string& tessellationControlFileName, const std::string& tessellationEvaluationFileName, const std::string& fragmentFileName);
+	//static GLuint compileShader(const GLuint ID);
 };
 
 #endif
