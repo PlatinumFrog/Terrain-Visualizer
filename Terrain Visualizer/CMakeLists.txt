@@ -2,10 +2,10 @@
 # project specific logic here.
 #
 
-list(APPEND CMAKE_PREFIX_PATH "${CMAKE_CURRENT_SOURCE_DIR}/SDL2/cmake")
+list(APPEND CMAKE_PREFIX_PATH "${CMAKE_CURRENT_SOURCE_DIR}/libraries/SDL2/cmake")
 find_package(SDL2 REQUIRED)
 
-list(APPEND CMAKE_PREFIX_PATH "${CMAKE_CURRENT_SOURCE_DIR}/SDL2_image/cmake")
+list(APPEND CMAKE_PREFIX_PATH "${CMAKE_CURRENT_SOURCE_DIR}/libraries/SDL2_image/cmake")
 find_package(SDL2_image REQUIRED)
 
 file(GLOB_RECURSE SOURCES source/*.cpp)
@@ -15,14 +15,14 @@ file(GLOB_RECURSE HEADERS source/*.hpp)
 
 set(GLAD_NAME "$<IF:$<CONFIG:Debug>,gladDebug,gladRelease>")
 
-include_directories(SYSTEM "${CMAKE_CURRENT_SOURCE_DIR}/${GLAD_NAME}/include" "include")
+include_directories(SYSTEM "${CMAKE_CURRENT_SOURCE_DIR}/libraries/${GLAD_NAME}/include" "include")
 
 add_executable (
 	CMakeTarget
 	"src/Main.cpp"
     "src/Input.cpp"
     "src/Shader.cpp"
-    "${GLAD_NAME}/src/glad.c"
+    "libraries/${GLAD_NAME}/src/glad.c"
     ${SOURCES}
     ${HEADERS}
 )

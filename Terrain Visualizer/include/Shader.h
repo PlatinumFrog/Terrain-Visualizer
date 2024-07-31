@@ -6,9 +6,9 @@
 #include <iostream>
 #include <map>
 #ifdef _DEBUG
-#include "../gladDebug/include/glad.h"
+#include "../libraries/gladDebug/include/glad.h"
 #else
-#include "../gladRelease/include/glad.h"
+#include "../libraries/gladRelease/include/glad.h"
 #endif
 struct shader {
 	std::map<std::string, std::string> files;

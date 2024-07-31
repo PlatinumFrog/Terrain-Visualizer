@@ -3,11 +3,7 @@
 ##
 ## Get latest from https://github.com/github/gitignore/blob/main/VisualStudio.gitignore
 
-/Terrain\ Visualizer/SDL2/**
-/Terrain\ Visualizer/SDL2_image/**
-/Terrain\ Visualizer/gladRelease/**
-/Terrain\ Visualizer/gladDebug/**
-/out/**
+
 # User-specific files
 *.rsuser
 *.suo
@@ -26,8 +22,8 @@ mono_crash.*
 [Dd]ebugPublic/
 [Rr]elease/
 [Rr]eleases/
-x64/
-x86/
+#x64/
+#x86/
 [Ww][Ii][Nn]32/
 [Aa][Rr][Mm]/
 [Aa][Rr][Mm]64/
@@ -401,4 +397,5 @@ FodyWeavers.xsd
 
 # JetBrains Rider
 *.sln.iml
-/Terrain Visualizer/heightMap.r8
+
+/out/**
