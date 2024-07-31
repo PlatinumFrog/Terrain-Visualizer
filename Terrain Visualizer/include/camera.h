@@ -29,7 +29,7 @@ struct camera {
 		pos(p)
 	{
 		const float3 forward = norm(d);
-		rot = float2{asin(forward.x / cos(forward.y)), asin(forward.y)};
+		rot = float2{asinf(forward.x / cosf(forward.y)), asinf(forward.y)};
 		const float3 right = norm(float3{-forward.z, 0.0f, forward.x});
 		const float3 up = norm(float3{-forward.x * forward.y, (forward.x * forward.x) + (forward.z * forward.z), -forward.y * forward.z});
 		C = matrix4{
@@ -52,7 +52,7 @@ struct camera {
 		pos(p)
 	{
 		const float3 forward = norm(d);
-		rot = float2{asin(forward.x / cos(forward.y)), asin(forward.y)};
+		rot = float2{asinf(forward.x / cosf(forward.y)), asinf(forward.y)};
 		const float3 right = norm(float3{-forward.z, 0.0f, forward.x});
 		const float3 up = norm(float3{-forward.x * forward.y, (forward.z * forward.z) + (forward.x * forward.x), -forward.z * forward.y});
 		C = matrix4{
@@ -61,7 +61,7 @@ struct camera {
 			float4{right.z, up.z, forward.z, 0.0f},
 			float4{-dot(right, p), -dot(up, p), -dot(forward, p), 1.0f}
 		};
-		const float t = 1.0f / tan((fv * (float)PI) / 360.0f);
+		const float t = 1.0f / tanf((fv * (float)PI) / 360.0f);
 		P = matrix4{
 			float4{asp * t, 0.0f, 0.0f, 0.0f},
 			float4{0.0f, t, 0.0f, 0.0f},
@@ -73,21 +73,21 @@ struct camera {
 
 	inline void movefov(float FOV) {
 		fv += FOV;
-		const float t = 1.0f / tan(fv * (float)PI * 0.00277777777778f);
+		const float t = 1.0f / tanf(fv * (float)PI * 0.00277777777778f);
 		P.x.x = asp * t;
 		P.y.y = t;
 	}
 
 	inline void setfov(float FOV) {
 		fv = FOV;
-		const float t = 1.0f / tan((fv * (float)PI) / 360.0f);
+		const float t = 1.0f / tanf((fv * (float)PI) / 360.0f);
 		P.x.x = asp * t;
 		P.y.y = t;
 	}
 
 	inline void place(float3 p, float3 d) {
 		pos = p;
-		rot = float2{asin(d.x / cos(d.y)), asin(d.y)};
+		rot = float2{asinf(d.x / cosf(d.y)), asinf(d.y)};
 		const float3 forward = norm(d);
 		const float3 right = norm(float3{-forward.z, 0.0f, forward.x});
 		const float3 up = norm(float3{-forward.x * forward.y, (forward.z * forward.z) + (forward.x * forward.x), -forward.z * forward.y});
