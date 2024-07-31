@@ -24,6 +24,7 @@ public:
 	static GLuint compileShader(const std::string& vertexFileName, const std::string& fragmentFileName);
 	static GLuint compileShader(const std::string& vertexFileName, const std::string& geometryFileName, const std::string& fragmentFileName);
 	static GLuint compileShader(const std::string& vertexFileName, const std::string& tessellationControlFileName, const std::string& tessellationEvaluationFileName, const std::string& fragmentFileName);
+	static GLuint compileShader(const std::string& vertexFileName, const std::string& tessellationControlFileName, const std::string& tessellationEvaluationFileName, const std::string& geometryFileName, const std::string& fragmentFileName);
 	//static GLuint compileShader(const GLuint ID);
 };
 

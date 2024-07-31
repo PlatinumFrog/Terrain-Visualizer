@@ -400,6 +400,203 @@ GLuint Shaders::compileShader(const std::string& vertexFileName, const std::stri
 }
 
 
+
+GLuint Shaders::compileShader(const std::string& vertexFileName, const std::string& tessellationControlFileName, const std::string& tessellationEvaluationFileName, const std::string& geometryFileName, const std::string& fragmentFileName) {
+
+	std::cout << "Creating new shader program with " << vertexFileName << ", " << tessellationControlFileName << ", " << tessellationEvaluationFileName << ", and " << fragmentFileName << ":\n";
+
+	std::cout << "\tOpening " << vertexFileName << "...\n";
+
+	std::ifstream vertexFile("shaders/" + vertexFileName, std::ios::binary);
+	std::string vertexString((std::istreambuf_iterator<char>(vertexFile)), (std::istreambuf_iterator<char>()));
+	vertexFile.close();
+
+	std::cout << "\t\tCreating Vertex Shader... \n";
+	GLuint vertShaderID = glCreateShader(GL_VERTEX_SHADER);
+
+	std::cout << "\t\tLoading Code... \n";
+	const GLchar* vString = vertexString.c_str();
+	glShaderSource(vertShaderID, 1, &vString, NULL);
+
+	std::cout << "\t\tCompiling...\n\n";
+	glCompileShader(vertShaderID);
+
+#ifdef _DEBUG
+	// DEBUG
+	GLint success;
+	GLchar log[512];
+
+	glGetShaderiv(vertShaderID, GL_COMPILE_STATUS, &success);
+	if (!success) {
+		glGetShaderInfoLog(vertShaderID, 512, NULL, log);
+		std::cout << "ERROR: Vertex shader " << vertShaderID << " failed to compile!\n_________________________________________\n" << log << std::endl;
+		return 0;
+	} else std::cout << '\t' << vertexFileName << " successfully compiled with ID: " << vertShaderID << "\n\n";
+
+#endif
+
+	std::cout << "\tOpening " << tessellationControlFileName << "...\n";
+
+	std::ifstream tessellationControlFile("shaders/" + tessellationControlFileName, std::ios::binary);
+	std::string tessellationControlString((std::istreambuf_iterator<char>(tessellationControlFile)), (std::istreambuf_iterator<char>()));
+	tessellationControlFile.close();
+	std::cout << "\t\tCreating Tessallation Control Shader... \n";
+	GLuint tessellationControlShaderID = glCreateShader(GL_TESS_CONTROL_SHADER);
+
+	std::cout << "\t\tLoading Code... \n";
+	const GLchar* tcString = tessellationControlString.c_str();
+	glShaderSource(tessellationControlShaderID, 1, &tcString, NULL);
+
+	std::cout << "\t\tCompiling...\n\n";
+	glCompileShader(tessellationControlShaderID);
+
+#ifdef _DEBUG
+	// DEBUG
+
+	glGetShaderiv(tessellationControlShaderID, GL_COMPILE_STATUS, &success);
+	if (!success) {
+		glGetShaderInfoLog(tessellationControlShaderID, 512, NULL, log);
+		std::cout << "ERROR: Tessellation Control shader " << tessellationControlShaderID << " failed to compile!\n_________________________________________\n" << log << std::endl;
+		return 0;
+	} else std::cout << '\t' << tessellationControlFileName << " successfully compiled with ID: " << tessellationControlShaderID << "\n\n";
+
+#endif
+
+	std::cout << "\tOpening " << tessellationEvaluationFileName << "...\n";
+
+	std::ifstream tessellationEvaluationFile("shaders/" + tessellationEvaluationFileName, std::ios::binary);
+	std::string tessellationEvaluationString((std::istreambuf_iterator<char>(tessellationEvaluationFile)), (std::istreambuf_iterator<char>()));
+	tessellationEvaluationFile.close();
+	std::cout << "\t\tCreating Tessellation Evaluation Shader... \n";
+	GLuint tessellationEvaluationShaderID = glCreateShader(GL_TESS_EVALUATION_SHADER);
+
+	std::cout << "\t\tLoading Code... \n";
+	const GLchar* teString = tessellationEvaluationString.c_str();
+	glShaderSource(tessellationEvaluationShaderID, 1, &teString, NULL);
+
+	std::cout << "\t\tCompiling...\n\n";
+	glCompileShader(tessellationEvaluationShaderID);
+
+#ifdef _DEBUG
+	// DEBUG
+
+	glGetShaderiv(tessellationEvaluationShaderID, GL_COMPILE_STATUS, &success);
+	if (!success) {
+		glGetShaderInfoLog(tessellationEvaluationShaderID, 512, NULL, log);
+		std::cout << "ERROR: Tessellation Evaluation shader " << tessellationEvaluationShaderID << " failed to compile!\n_________________________________________\n" << log << std::endl;
+		return 0;
+	} else std::cout << '\t' << tessellationEvaluationFileName << " successfully compiled with ID: " << tessellationEvaluationShaderID << "\n\n";
+
+#endif
+
+	std::cout << "\tOpening " << geometryFileName << "...\n";
+
+	std::ifstream geometryFile("shaders/" + geometryFileName, std::ios::binary);
+	std::string geometryString((std::istreambuf_iterator<char>(geometryFile)), (std::istreambuf_iterator<char>()));
+	geometryFile.close();
+	std::cout << "\t\tCreating Geometry Shader... \n";
+	GLuint geomShaderID = glCreateShader(GL_GEOMETRY_SHADER);
+
+	std::cout << "\t\tLoading Code... \n";
+	const GLchar* gString = geometryString.c_str();
+	glShaderSource(geomShaderID, 1, &gString, NULL);
+
+	std::cout << "\t\tCompiling...\n\n";
+	glCompileShader(geomShaderID);
+
+#ifdef _DEBUG
+	// DEBUG
+
+	glGetShaderiv(geomShaderID, GL_COMPILE_STATUS, &success);
+	if (!success) {
+		glGetShaderInfoLog(geomShaderID, 512, NULL, log);
+		std::cout << "ERROR: Geometry shader " << geomShaderID << " failed to compile!\n_________________________________________\n" << log << std::endl;
+		return 0;
+	} else std::cout << '\t' << geometryFileName << " successfully compiled with ID: " << geomShaderID << "\n\n";
+
+#endif
+
+	std::cout << "\tOpening " << fragmentFileName << "...\n";
+
+	std::ifstream fragmentFile("shaders/" + fragmentFileName, std::ios::binary);
+	std::string fragmentString((std::istreambuf_iterator<char>(fragmentFile)), (std::istreambuf_iterator<char>()));
+	fragmentFile.close();
+	std::cout << "\t\tCreating Fragment Shader...\n";
+	GLuint fragShaderID = glCreateShader(GL_FRAGMENT_SHADER);
+
+	std::cout << "\t\tLoading Code...\n";
+	const GLchar* fString = fragmentString.c_str();
+	glShaderSource(fragShaderID, 1, &fString, NULL);
+
+	std::cout << "\t\tCompiling...\n\n";
+	glCompileShader(fragShaderID);
+
+#ifdef _DEBUG
+	// DEBUG
+
+	glGetShaderiv(fragShaderID, GL_COMPILE_STATUS, &success);
+	if (!success) {
+		glGetShaderInfoLog(fragShaderID, 512, NULL, log);
+		std::cout << "ERROR: Fragment shader " << fragShaderID << " failed to compile!\n___________________________________________\n" << log << std::endl;
+		return 0;
+	} else {
+		std::cout << '\t' << fragmentFileName << " successfully compiled with ID: " << fragShaderID << ".\n\n";
+	}
+
+#endif
+
+	std::cout << "\tLinking shader program...\n";
+	GLuint shaderID = glCreateProgram();
+
+	std::cout << "\t\tAttaching " << vertexFileName << " ID: " << vertShaderID << "...\n";
+	glAttachShader(shaderID, vertShaderID);
+
+	std::cout << "\t\tAttaching " << tessellationControlFileName << " ID: " << tessellationControlShaderID << "...\n";
+	glAttachShader(shaderID, tessellationControlShaderID);
+
+	std::cout << "\t\tAttaching " << tessellationEvaluationFileName << " ID: " << tessellationEvaluationShaderID << "...\n";
+	glAttachShader(shaderID, tessellationEvaluationShaderID);
+
+	std::cout << "\t\tAttaching " << geometryFileName << " ID: " << geomShaderID << "...\n";
+	glAttachShader(shaderID, geomShaderID);
+
+	std::cout << "\t\tAttaching " << fragmentFileName << " ID: " << fragShaderID << "...\n";
+	glAttachShader(shaderID, fragShaderID);
+
+	std::cout << "\t\tLinking " << vertexFileName << ", " << tessellationControlFileName << ", " << tessellationEvaluationFileName << ", and " << fragmentFileName << "...\n\n";
+	glLinkProgram(shaderID);
+
+#ifdef _DEBUG
+	// DEBUG
+	glGetProgramiv(shaderID, GL_LINK_STATUS, &success);
+	if (!success) {
+		glGetProgramInfoLog(shaderID, 512, NULL, log);
+		std::cout << "ERROR: Shader Program " << shaderID << " has failed to link!\n" << log << std::endl;
+		return 0;
+	} else {
+		std::cout << '\t' << vertexFileName << ", " << tessellationControlFileName << ", " << tessellationEvaluationFileName << ", and " << fragmentFileName << " were successfully linked.\n\nShader Program Succesfully created with ID: " << shaderID << "\n\n";
+	}
+#endif
+
+	glDeleteShader(vertShaderID);
+	glDeleteShader(tessellationControlShaderID);
+	glDeleteShader(tessellationEvaluationShaderID);
+	glDeleteShader(geomShaderID);
+	glDeleteShader(fragShaderID);
+
+	shader s;
+	s.flags = 3;
+	s.files[vertexFileName] = vertexString;
+	s.files[tessellationControlFileName] = tessellationControlString;
+	s.files[tessellationEvaluationFileName] = tessellationEvaluationString;
+	s.files[geometryFileName] = geometryString;
+	s.files[fragmentFileName] = fragmentString;
+	shaders[shaderID] = s;
+
+	return shaderID;
+}
+
+
 //GLuint Shaders::compileShader(const GLuint ID){
 //
 //	if(shaders.count(ID)){
