@@ -8,14 +8,17 @@ find_package(SDL2 REQUIRED)
 list(APPEND CMAKE_PREFIX_PATH "${CMAKE_CURRENT_SOURCE_DIR}/libraries/SDL2_image/cmake")
 find_package(SDL2_image REQUIRED)
 
-file(GLOB_RECURSE SOURCES source/*.cpp)
-file(GLOB_RECURSE HEADERS source/*.hpp)
-
 # Add source to this project's executable.
 
 set(GLAD_NAME "$<IF:$<CONFIG:Debug>,gladDebug,gladRelease>")
 
-include_directories(SYSTEM "${CMAKE_CURRENT_SOURCE_DIR}/libraries/${GLAD_NAME}/include" "include")
+include_directories(
+    SYSTEM 
+    "include"
+    "${CMAKE_CURRENT_SOURCE_DIR}/libraries/${GLAD_NAME}/include"
+    "libraries/SDL2image/include"
+    "libraries/SDL2/include"
+)
 
 add_executable (
 	CMakeTarget
@@ -23,8 +26,6 @@ add_executable (
     "src/Input.cpp"
     "src/Shader.cpp"
     "libraries/${GLAD_NAME}/src/glad.c"
-    ${SOURCES}
-    ${HEADERS}
 )
 
 target_link_libraries(
