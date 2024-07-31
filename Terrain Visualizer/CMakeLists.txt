@@ -14,32 +14,29 @@ set(GLAD_NAME "$<IF:$<CONFIG:Debug>,gladDebug,gladRelease>")
 
 include_directories(
     SYSTEM 
-    "${CMAKE_CURRENT_SOURCE_DIR}/include"
-    "${CMAKE_CURRENT_SOURCE_DIR}/libraries/${GLAD_NAME}/include"
-    "${CMAKE_CURRENT_SOURCE_DIR}/libraries/SDL2image/include"
-    "${CMAKE_CURRENT_SOURCE_DIR}/libraries/SDL2/include"
+    ${CMAKE_CURRENT_SOURCE_DIR}/include
+    ${CMAKE_CURRENT_SOURCE_DIR}/libraries/SDL2_image/include
+    ${SDL2_INCLUDE_DIR}
+    ${CMAKE_CURRENT_SOURCE_DIR}/libraries/${GLAD_NAME}/include
 )
 
 add_executable (
 	CMakeTarget
-	"src/Main.cpp"
-    "src/Input.cpp"
-    "src/Shader.cpp"
-    "libraries/${GLAD_NAME}/src/glad.c"
+	src/Main.cpp
+    src/Input.cpp
+    src/Shader.cpp
+    libraries/${GLAD_NAME}/src/glad.c
 )
 
 target_link_libraries(
     CMakeTarget
     PUBLIC
-    SDL2::SDL2
-    SDL2::SDL2main
-    SDL2_image::SDL2_image
+    ${SDL2_LIBS}
+    ${SDL2_IMAGE_LIBS}
 )
-
 
 if (CMAKE_VERSION VERSION_GREATER 3.12)
   set_property(TARGET CMakeTarget PROPERTY CXX_STANDARD 20)
 endif()
 
 # TODO: Add tests and install targets if needed.
-add_compile_options("-Wall")
