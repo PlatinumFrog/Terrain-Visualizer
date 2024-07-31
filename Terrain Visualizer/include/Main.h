@@ -7,9 +7,9 @@
 #include <SDL.h>
 #include "Input.h"
 #ifdef _DEBUG
-#include "../gladDebug/include/glad.h"
+#include "../libraries/gladDebug/include/glad.h"
 #else
-#include "../gladRelease/include/glad.h"
+#include "../libraries/gladRelease/include/glad.h"
 #endif
 
 #include "TerrainTexture.h"

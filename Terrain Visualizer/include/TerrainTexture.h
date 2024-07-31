@@ -4,9 +4,9 @@
 #include <SDL.h>
 #include "SDL_image.h"
 #ifdef _DEBUG
-#include "../gladDebug/include/glad.h"
+#include "../libraries/gladDebug/include/glad.h"
 #else
-#include "../gladRelease/include/glad.h"
+#include "../libraries/gladRelease/include/glad.h"
 #endif
 #include <SDL_opengl.h>
 #include "Input.h"
