@@ -57,7 +57,7 @@ int main(int argc, char* argv[])
 {
 	
 	if (argc < 2) {
-		throw std::exception("You forgot to use an image as an exec argument!");
+		throw std::invalid_argument("You forgot to use an image as an exec argument!");
 	}
 	std::cout << "Loading " << argv[1] << "..." << std::endl;
 	
