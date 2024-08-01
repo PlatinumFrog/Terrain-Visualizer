@@ -30,9 +30,9 @@ if(WIN32)
         ${CMAKE_CURRENT_SOURCE_DIR}/libraries/SDL2_image-Windows/lib/SDL2_image.lib
     )
 else()
-    list(APPEND CMAKE_PREFIX_PATH "${CMAKE_CURRENT_SOURCE_DIR}/libraries/SDL2-Linux/lib/SDL2")
+    list(APPEND CMAKE_PREFIX_PATH "${CMAKE_CURRENT_SOURCE_DIR}/libraries/SDL2-Linux/lib/cmake/SDL2")
     find_package(SDL2 REQUIRED)
-    list(APPEND CMAKE_PREFIX_PATH "${CMAKE_CURRENT_SOURCE_DIR}/libraries/SDL2_image-Linux/lib/cmake/SDL_image")
+    list(APPEND CMAKE_PREFIX_PATH "${CMAKE_CURRENT_SOURCE_DIR}/libraries/SDL2_image-Linux/lib/cmake/SDL2_image")
     find_package(SDL2_image REQUIRED)
     set(GLAD_NAME "$<IF:$<CONFIG:Debug>,gladDebug,gladRelease>")
     include_directories(
