@@ -1,8 +1,10 @@
 ﻿# CMakeList.txt : CMake project for Terrain Visualizer, include source and define
 # project specific logic here.
 #
-
-list(APPEND CMAKE_PREFIX_PATH "${CMAKE_CURRENT_SOURCE_DIR}/libraries/SDL2/cmake")
+if(WIN32)
+list(APPEND CMAKE_PREFIX_PATH "${CMAKE_CURRENT_SOURCE_DIR}/libraries/SDL2-Windows/cmake")
+else()
+endif()
 find_package(SDL2 REQUIRED)
 
 list(APPEND CMAKE_PREFIX_PATH "${CMAKE_CURRENT_SOURCE_DIR}/libraries/SDL2_image/cmake")
