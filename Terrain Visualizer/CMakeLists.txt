@@ -1,59 +1,60 @@
 ﻿# CMakeList.txt : CMake project for Terrain Visualizer, include source and define
 # project specific logic here.
-#
+
 add_compile_options(-Wall)
 
 if(WIN32)
-list(APPEND CMAKE_PREFIX_PATH "${CMAKE_CURRENT_SOURCE_DIR}/libraries/SDL2-Windows/cmake")
-find_package(SDL2 REQUIRED)
-list(APPEND CMAKE_PREFIX_PATH "${CMAKE_CURRENT_SOURCE_DIR}/libraries/SDL2_image-Windows/cmake")
-find_package(SDL2_image REQUIRED)
-set(GLAD_NAME "$<IF:$<CONFIG:Debug>,gladDebug,gladRelease>")
-include_directories(
-    SYSTEM 
-    ${CMAKE_CURRENT_SOURCE_DIR}/include
-    ${CMAKE_CURRENT_SOURCE_DIR}/libraries/SDL2-Windows/include
-    ${CMAKE_CURRENT_SOURCE_DIR}/libraries/SDL2_image-Windows/include
-    ${CMAKE_CURRENT_SOURCE_DIR}/libraries/${GLAD_NAME}/include
-)
-add_executable (
-	CMakeTarget
-	src/Main.cpp
-    src/Input.cpp
-    src/Shader.cpp
-    libraries/${GLAD_NAME}/src/glad.c
-)
-target_link_libraries(
-    CMakeTarget
-    ${CMAKE_CURRENT_SOURCE_DIR}/libraries/SDL2-Windows/lib
-    ${CMAKE_CURRENT_SOURCE_DIR}/libraries/SDL2_image-Windows/lib
-)
+    list(APPEND CMAKE_PREFIX_PATH "${CMAKE_CURRENT_SOURCE_DIR}/libraries/SDL2-Windows/cmake")
+    find_package(SDL2 REQUIRED)
+    list(APPEND CMAKE_PREFIX_PATH "${CMAKE_CURRENT_SOURCE_DIR}/libraries/SDL2_image-Windows/cmake")
+    find_package(SDL2_image REQUIRED)
+    set(GLAD_NAME "$<IF:$<CONFIG:Debug>,gladDebug,gladRelease>")
+    include_directories(
+        SYSTEM 
+        ${CMAKE_CURRENT_SOURCE_DIR}/include
+        ${CMAKE_CURRENT_SOURCE_DIR}/libraries/SDL2-Windows/include/SDL2
+        ${CMAKE_CURRENT_SOURCE_DIR}/libraries/SDL2_image-Windows/include/SDL2
+        ${CMAKE_CURRENT_SOURCE_DIR}/libraries/${GLAD_NAME}/include
+    )
+    add_executable (
+	    CMakeTarget
+	    src/Main.cpp
+        src/Input.cpp
+        src/Shader.cpp
+        libraries/${GLAD_NAME}/src/glad.c
+    )
+    target_link_libraries(
+        CMakeTarget
+        ${CMAKE_CURRENT_SOURCE_DIR}/libraries/SDL2-Windows/lib/SDL2.lib
+        ${CMAKE_CURRENT_SOURCE_DIR}/libraries/SDL2-Windows/lib/SDL2main.lib
+        ${CMAKE_CURRENT_SOURCE_DIR}/libraries/SDL2_image-Windows/lib/SDL2_image.lib
+    )
 else()
-list(APPEND CMAKE_PREFIX_PATH "${CMAKE_CURRENT_SOURCE_DIR}/libraries/SDL2-Linux/cmake")
-find_package(SDL2 REQUIRED)
-list(APPEND CMAKE_PREFIX_PATH "${CMAKE_CURRENT_SOURCE_DIR}/libraries/SDL2_image/cmake")
-find_package(SDL2_image REQUIRED)
-set(GLAD_NAME "$<IF:$<CONFIG:Debug>,gladDebug,gladRelease>")
-include_directories(
-    SYSTEM 
-    ${CMAKE_CURRENT_SOURCE_DIR}/include
-    ${CMAKE_CURRENT_SOURCE_DIR}/libraries/SDL2_image/include/SDL2
-    ${SDL2_INCLUDE_DIR}
-    ${CMAKE_CURRENT_SOURCE_DIR}/libraries/${GLAD_NAME}/include
-)
-add_executable (
-	CMakeTarget
-	src/Main.cpp
-    src/Input.cpp
-    src/Shader.cpp
-    libraries/${GLAD_NAME}/src/glad.c
-)
-target_link_libraries(
-    CMakeTarget
-    PUBLIC
-    ${CMAKE_CURRENT_SOURCE_DIR}/libraries/SDL2-Linux/lib/libSDL2.a
-    ${SDL2_IMAGE_LIBS}
-)
+    list(APPEND CMAKE_PREFIX_PATH "${CMAKE_CURRENT_SOURCE_DIR}/libraries/SDL2-Linux/lib/SDL2")
+    find_package(SDL2 REQUIRED)
+    list(APPEND CMAKE_PREFIX_PATH "${CMAKE_CURRENT_SOURCE_DIR}/libraries/SDL2_image-Linux/lib/cmake/SDL_image")
+    find_package(SDL2_image REQUIRED)
+    set(GLAD_NAME "$<IF:$<CONFIG:Debug>,gladDebug,gladRelease>")
+    include_directories(
+        SYSTEM 
+        ${CMAKE_CURRENT_SOURCE_DIR}/include
+        ${CMAKE_CURRENT_SOURCE_DIR}/libraries/SDL2_image-Linux/include/SDL2_image
+        ${CMAKE_CURRENT_SOURCE_DIR}/libraries/SDL2-Linux/include
+        ${CMAKE_CURRENT_SOURCE_DIR}/libraries/${GLAD_NAME}/include
+    )
+    add_executable (
+	    CMakeTarget
+	    src/Main.cpp
+        src/Input.cpp
+        src/Shader.cpp
+        libraries/${GLAD_NAME}/src/glad.c
+    )
+    target_link_libraries(
+        CMakeTarget
+        SDL2::SDL2
+        SDL2::SDL2main
+        ${CMAKE_CURRENT_SOURCE_DIR}/libraries/SDL2_image-Linux/lib/libSDL2_image-2.0.so.0.800.2
+    )
 endif()
 
 # Add source to this project's executable.
