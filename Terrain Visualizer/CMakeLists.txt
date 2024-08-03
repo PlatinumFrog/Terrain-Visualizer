@@ -45,7 +45,6 @@ else()
 	    CMakeTarget
 	    src/Main.cpp
         src/Input.cpp
-        src/Shader.cpp
         libraries/${GLAD_NAME}/src/glad.c
     )
     target_link_libraries(
