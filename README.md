@@ -1,8 +1,23 @@
 # Terrain Visualizer
-How to set up:
 
-  Step 1: download the latest SDL2 dev API
-  
-  Step 2: download GLAD openGL debug and no debug versions
-  
-  Step 3: put API folders into interior "Terrain Visualizer" folder
+Build instructions:
+
+```mkdir <Workspace Name>```
+
+```cd <Workspace Name>```
+
+```git clone https://github.com/PlatinumFrog/Terrain-Visualizer```
+
+```mkdir build```
+
+```cd build```
+
+```cmake ../Terrain-Visualizer```
+
+```make```
+
+```cd 'Terrain Visualizer'```
+
+```cp ../../Terrain-Visualizer/'Terrain Visualizer'/heightMap.pgm ./```
+
+```cp -r ../../Terrain-Visualizer/'Terrain Visualizer'/shaders ./```

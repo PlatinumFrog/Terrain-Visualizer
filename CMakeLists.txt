@@ -13,3 +13,5 @@ project ("Terrain Visualizer")
 
 # Include sub-projects.
 add_subdirectory ("Terrain Visualizer")
+
+add_compile_options(-Wall)
