@@ -39,7 +39,7 @@ else()
         SYSTEM 
         ${CMAKE_CURRENT_SOURCE_DIR}/include
         ${CMAKE_CURRENT_SOURCE_DIR}/libraries/SDL2_image-Linux/include/SDL2_image
-        ${CMAKE_CURRENT_SOURCE_DIR}/libraries/SDL2-Linux/include
+        ${CMAKE_CURRENT_SOURCE_DIR}/libraries/SDL2-Linux/include/SDL2
         ${CMAKE_CURRENT_SOURCE_DIR}/libraries/${GLAD_NAME}/include
     )
     add_executable (
@@ -51,8 +51,8 @@ else()
     )
     target_link_libraries(
         CMakeTarget
-        SDL2::SDL2
-        SDL2::SDL2main
+        ${CMAKE_CURRENT_SOURCE_DIR}/libraries/SDL2-Linux/lib/libSDL2.a
+        ${CMAKE_CURRENT_SOURCE_DIR}/libraries/SDL2-Linux/lib/libSDL2main.a
         ${CMAKE_CURRENT_SOURCE_DIR}/libraries/SDL2_image-Linux/lib/libSDL2_image-2.0.so.0.800.2
     )
 endif()
