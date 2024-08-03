@@ -57,7 +57,7 @@ int main(int argc, char* argv[])
 {
 	
 	if (argc < 2) {
-		throw std::invalid_argument("You forgot to use an image as an exec argument!");
+		throw std::exception("You forgot to use an image as an exec argument!");
 	}
 	std::cout << "Loading " << argv[1] << "..." << std::endl;
 	
@@ -123,7 +123,7 @@ int main(int argc, char* argv[])
 
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-		terr.draw();
+		terr.draw(1.0f);
 
 		SDL_GL_SwapWindow(window);
 	}
