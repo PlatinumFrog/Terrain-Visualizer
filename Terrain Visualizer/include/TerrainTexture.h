@@ -26,14 +26,13 @@ constexpr uint32_t nPrimitives = vertsPerTile * nTiles * nTiles;
 
 class TerrainTexture {
 	GLuint vboID, vaoID, heightMapTexID, shadowMapTexID, drawShaderID, shadowShaderID;
-
 public:
 	TerrainTexture():
 		vboID(0),
 		vaoID(0),
 		heightMapTexID(0),
 		shadowMapTexID(0),
-		drawShaderID(Shaders::compileShader("flatSquare.vert","flatSquare.tesc", "flatSquare.tese", "flatSquare.frag")),
+		drawShaderID(Shaders::compileShader("flatSquare.vert", "flatSquare.tesc", "flatSquare.tese", "flatSquare.frag")),
 		shadowShaderID(0)
 	{
 		GLfloat squareCoords[gridBufferSize];
@@ -151,7 +150,7 @@ public:
 		glDeleteProgram(drawShaderID);
 	}
 
-	void draw() {
+	void draw(float h) {
 		glUseProgram(drawShaderID);
 		glBindVertexArray(vaoID);
 
@@ -161,6 +160,7 @@ public:
 		glUniformMatrix4fv(1, 1, GL_FALSE, (const GLfloat*)&Input::cam.C.x.x);
 		glUniformMatrix4fv(5, 1, GL_FALSE, (const GLfloat*)&Input::cam.P.x.x);
 		glUniform1f(9, gridSize * 0.5f);
+		glUniform1f(10, h);
 		glDrawArrays(GL_PATCHES, 0, nPrimitives);
 	}
 

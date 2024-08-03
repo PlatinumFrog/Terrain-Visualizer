@@ -25,7 +25,7 @@ void Input::update() {
 				(keyState[SDL_SCANCODE_Q] * spd) - (keyState[SDL_SCANCODE_E] * spd),
 				(keyState[SDL_SCANCODE_S] * spd) - (keyState[SDL_SCANCODE_W] * spd)
 			},
-			float2{((cos(cam.rot.y) >= 0) ? 0.005f : -0.005f) * dx, -0.005f * dy}
+			float2{((cosf(cam.rot.y) >= 0.0f) ? 0.005f : -0.005f) * dx, -0.005f * dy}
 		);
 	}
 	else if (mb) cam.movefov(0.05f * dy);
