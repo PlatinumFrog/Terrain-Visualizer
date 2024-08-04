@@ -17,5 +17,5 @@ void main() {
 	vec3 c2 = vec3(posCoord.x, texture(heightMap, vec2(texCoord.x, texCoord.y + offset)).r * height, posCoord.z + sOffset);
 	vec3 normal = normalize(cross(c2 - c0, c1 - c0));
 	color = vec4(normal, 1);
-	//color = vec4(1);
+
 }

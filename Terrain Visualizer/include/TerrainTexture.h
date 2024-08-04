@@ -12,8 +12,8 @@
 #include "Input.h"
 #include "Shader.h"
 
-constexpr float gridSize = 100.0f;
-constexpr uint32_t nTiles = 14u;
+constexpr float gridSize = 1000.0f;
+constexpr uint32_t nTiles = 64u;
 constexpr float tileMin = (float)(nTiles >> 1);
 constexpr float tileMax = tileMin - 1.0f;
 constexpr float tileSize = gridSize / (float)nTiles;
@@ -24,18 +24,44 @@ constexpr uint32_t primitiveSize = vertSize * vertsPerTile;
 constexpr uint32_t gridBufferSize = primitiveSize * nTiles * nTiles;
 constexpr uint32_t nPrimitives = vertsPerTile * nTiles * nTiles;
 
+
+
 class TerrainTexture {
-	GLuint vboID, vaoID, heightMapTexID, shadowMapTexID, drawShaderID, shadowShaderID;
+	GLuint vboID, vaoID, heightMapTexID;
+
+	const GLuint nShaders = 2;
+	GLuint shaderList[2];
+	GLuint currentShader;
+
+	bool shaderLswitch;
+	bool shaderRswitch;
+	
+
 public:
 	TerrainTexture():
 		vboID(0),
 		vaoID(0),
 		heightMapTexID(0),
-		shadowMapTexID(0),
-		drawShaderID(Shaders::compileShader("flatSquare.vert", "flatSquare.tesc", "flatSquare.tese", "flatSquare.frag")),
-		shadowShaderID(0)
+		currentShader(0),
+		shaderLswitch(false),
+		shaderRswitch(false)
+		
 	{
-		GLfloat squareCoords[gridBufferSize];
+		shaderList[0] = Shaders::compileShader(
+			"normals.vert",
+			"normals.tesc",
+			"normals.tese",
+			"normals.frag"
+		);
+		shaderList[1] = Shaders::compileShader(
+			"wireframe.vert",
+			"wireframe.tesc",
+			"wireframe.tese",
+			"wireframe.geom",
+			"wireframe.frag"
+		);
+
+		GLfloat *squareCoords = new GLfloat[gridBufferSize];
 		for (uint32_t y = 0; y < nTiles; y++) {
 			for (uint32_t x = 0; x < nTiles; x++) {
 
@@ -80,15 +106,32 @@ public:
 		glBindBuffer(GL_ARRAY_BUFFER, 0);
 		glBindVertexArray(0);
 		glPatchParameteri(GL_PATCH_VERTICES, 4);
+		delete squareCoords;
 	};
 
 	TerrainTexture(std::string heightMapFile):
 		vboID(0),
 		vaoID(0),
 		heightMapTexID(0),
-		shadowMapTexID(0),
-		drawShaderID(Shaders::compileShader("flatSquare.vert", "flatSquare.tesc", "flatSquare.tese", "flatSquare.frag")),
-		shadowShaderID(0) {
+		currentShader(0),
+		shaderLswitch(false),
+		shaderRswitch(false)
+	{
+		shaderList[0] = Shaders::compileShader(
+			"normals.vert",
+			"normals.tesc",
+			"normals.tese",
+			"normals.frag"
+		);
+		shaderList[1] = Shaders::compileShader(
+			"wireframe.vert",
+			"wireframe.tesc",
+			"wireframe.tese",
+			"wireframe.geom",
+			"wireframe.frag"
+		);
+
+		
 		GLfloat squareCoords[gridBufferSize];
 		for (uint32_t y = 0; y < nTiles; y++) {
 			for (uint32_t x = 0; x < nTiles; x++) {
@@ -147,11 +190,28 @@ public:
 	~TerrainTexture() {
 		glDeleteBuffers(1, &vboID);
 		glDeleteVertexArrays(1, &vaoID);
-		glDeleteProgram(drawShaderID);
+		glDeleteProgram(shaderList[0]);
+		glDeleteProgram(shaderList[1]);
 	}
-
 	void draw(float h) {
-		glUseProgram(drawShaderID);
+
+		if (Input::key(SDL_SCANCODE_COMMA) && !shaderLswitch) {
+			if (currentShader > 0) currentShader--;
+			shaderLswitch = true;
+		} else if (!Input::key(SDL_SCANCODE_COMMA) && shaderLswitch) {
+			shaderLswitch = false;
+		}
+
+		if (Input::key(SDL_SCANCODE_PERIOD) && !shaderRswitch) {
+
+			if (currentShader < (nShaders - 1)) currentShader++;
+
+			shaderRswitch = true;
+		} else if (!Input::key(SDL_SCANCODE_PERIOD) && shaderRswitch) {
+			shaderRswitch = false;
+		}
+
+		glUseProgram(shaderList[currentShader]);
 		glBindVertexArray(vaoID);
 
 		glActiveTexture(GL_TEXTURE0);

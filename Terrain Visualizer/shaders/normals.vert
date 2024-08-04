@@ -7,6 +7,5 @@ layout(location = 9) uniform float size;
 layout(location = 10) uniform float height;
 
 void main() {
-	//gl_Position = projection * camera * vec4(vert.x, 0.0, vert.y, 1.0);
 	gl_Position = vert;
 }
