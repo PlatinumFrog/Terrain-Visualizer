@@ -7,9 +7,6 @@ layout(line_strip, max_vertices = 4) out;
 uniform mat4 camera;
 uniform mat4 projection;
 
-//in vec2 texCoords;
-//in vec2 posCoords;
-
 void main() {
 	gl_Position = projection * camera * gl_in[0].gl_Position;
 	EmitVertex();
